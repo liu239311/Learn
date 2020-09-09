@@ -24,7 +24,7 @@ $(function () {
   })
 });
 // 点击去登录
-
+// console.log($('.register form'));
 $('.register form').submit(function (e) {
   e.preventDefault();
   var data = {
@@ -39,6 +39,5 @@ $('.register form').submit(function (e) {
     } else {
       console.log(res.message)
     }
-    alert(1)
   })
 })
