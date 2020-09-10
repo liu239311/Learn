@@ -16,28 +16,50 @@ $(function () {
     // 验证两次密码
     regpassword: function (value) {
       // value 表示确认密码
-      let pwd = $('input[name="password"]').val().trim() // 获取密码
+      let pwd = $('.register input[name="password"]').val().trim() // 获取密码
       if (value !== pwd) {
         return '两次密码不一致'
       }
     },
   })
 });
-// 点击去登录
+// 点击去注册
 // console.log($('.register form'));
 $('.register form').submit(function (e) {
   e.preventDefault();
   var data = {
-    username: $('.register form input[name=username]').val(),
-    password: $('.register form input[name=password]').val()
+    username: $('.register input[name=username]').val(),
+    password: $('.register input[name=password]').val()
   }
-  $.post('http://ajax.frontend.itheima.net/api/reguser', data, function (
+  console.log(data);
+  $.post('/api/reguser', data, function (
     res
   ) {
     if (res.status === 0) {
-      console.log(res.message)
+      layer.msg(res.message)
+      $('.register a').click()
+      $('.login form input[name=username]').val(data.username)
+      $('.login form input[name=password]').val(data.password)
     } else {
-      console.log(res.message)
+      layer.msg(res.message)
+    }
+  })
+})
+// http://ajax.frontend.itheima.net
+// 点击去登录
+$('.login form').submit(function (e) {
+  e.preventDefault();
+  var data = $(this).serialize()
+  console.log(data);
+  $.post('/api/login', data, function (
+    res
+  ) {
+    if (res.status === 0) {
+      localStorage.setItem('token', res['token'])
+      layer.msg(res.message)
+      location.href = '../../index.html'
+    } else {
+      layer.msg(res.message)
     }
   })
 })
