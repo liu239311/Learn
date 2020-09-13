@@ -2,7 +2,7 @@ $(function () {
   initArticleList();
 
   function initArticleList() {
-    $.get('/my/article/cates', (data) => {
+    $.get('/my/article/cates', data => {
       // console.log(data);
       if (data.status === 0) {
         var list = template('tmp', data)
@@ -24,7 +24,7 @@ $(function () {
   $('body').on('submit', '#addForm', function(e){
     e.preventDefault();
     console.log($(this).serialize());
-    $.post('/my/article/addcates', $(this).serialize(), function (res) {
+    $.post('/my/article/addcates', $(this).serialize(),  res => {
       if (res.status === 0) {
         initArticleList()
         layer.close(indexAdd)
@@ -45,7 +45,7 @@ $(function () {
     })
     // 获取button的data-Id属性值
     var Id = $(this).attr('data-id')
-    $.get(`/my/article/cates/${Id}`, function (res) {
+    $.get(`/my/article/cates/${Id}`, res => {
       if (res.status === 0) {
         layui.form.val('editForm', res.data)
       }
@@ -54,7 +54,7 @@ $(function () {
   //  通过代理，为表单绑定事件
   $('body').on('submit', '#editForm', function (e) {
     e.preventDefault()
-    $.post('/my/article/updatecate', $(this).serialize(), (res) => {
+    $.post('/my/article/updatecate', $(this).serialize(), res => {
       // console.log(res)
       if (res.status === 0) {
         initArticleList()
