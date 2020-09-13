@@ -11,7 +11,9 @@ $(function () {
     $.ajax({
       url: '/my/userinfo',
       success: function (res) {
-        if (res.status === 1) return
+        if (res.status === 1) {
+          return
+        }
         var resname = res.data.nickname || res.data.username
         $('#welcome').html(resname)
         if (res.data.user_pic) {
