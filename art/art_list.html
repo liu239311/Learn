@@ -6,16 +6,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Document</title>
   <!-- 加载第三方的 layui.css -->
-  <link rel="stylesheet" href="../assets/lib/layui/css/layui.css" />
+  <link rel="stylesheet" href="/assets/lib/layui/css/layui.css" />
   <!-- 加载自己的css -->
-  <link rel="stylesheet" href="../assets/css/art_list.css" />
-  <!-- 加载jquery.js -->
-  <script src="../assets/lib/jquery.js"></script>
-
-  <!-- 加载template-web.js -->
-  <script src="../assets/lib/template-web.js"></script>
-  <!-- 加载自己的js -->
-  <!-- <script src="../assets/js/art/art_list.js"></script> -->
+  <link rel="stylesheet" href="/assets/css/art_list.css" />
 </head>
 
 <body>
@@ -23,23 +16,21 @@
     <div class="layui-card-header">文章列表</div>
     <div class="layui-card-body">
       <!-- 内容区一  搜索区 -->
-      <form class="layui-form">
+      <form class="layui-form" id="form-search">
         <div class="layui-form-item">
           <div class="layui-inline">
             <div class="layui-input-inline" style="width: 100px">
-              <select name="city" lay-verify="">
-                <option value="">所有分类</option>
-                <option value="010">北京</option>
-                <option value="021">上海</option>
-                <option value="0571">杭州</option>
+              <select name="cate_id" id="sct-cate">
+                <!-- 动态渲染 -->
               </select>
             </div>
+
             <div class="layui-input-inline" style="width: 100px">
-              <select name="city" lay-verify="">
+              <!-- 表单请求： name=“city” value=“010” -->
+              <select name="state">
                 <option value="">所有状态</option>
-                <option value="010">北京</option>
-                <option value="021">上海</option>
-                <option value="0571">杭州</option>
+                <option value="已发布">已发布</option>
+                <option value="草稿">草稿</option>
               </select>
             </div>
           </div>
@@ -82,37 +73,66 @@
     </div>
   </div>
 
+  <!-- 文章列表的模板 -->
+
   <script type="text/html" id="tpl-table">
-    {{each data}}
-    <tr>
-      <td>{{$value.Id}}</td>
-      <td>{{$value.title}}</td>
-      <td>{{$value.cate_name}}</td>
-      <td>{{$value.pub_date}}</td>
-      <td>{{$value.state}}</td>
-      <td>
-        <button
-          data-id="{{$value.Id}}"
-          type="button"
-          class="layui-btn layui-btn-xs edit"
-        >
-          编辑
-        </button>
-        <button
-          data-id="{{$value.Id}}"
-          type="button"
-          class="layui-btn layui-btn-danger layui-btn-xs delete"
-        >
-          删除
-        </button>
-      </td>
-    </tr>
-    {{/each}}
-  </script>
+      {{each data}}
+      <tr>
+        <td>{{$value.Id}}</td>
+        <td>{{$value.title}}</td>
+        <td>{{$value.cate_name}}</td>
+        <td>{{$value.pub_date | formatDate}}</td>
+        <td>{{$value.state}}</td>
+        <td>
+          <button
+            data-id="{{$value.Id}}"
+            type="button"
+            class="layui-btn layui-btn-xs edit"
+          >
+            编辑
+          </button>
+          <button
+            data-id="{{$value.Id}}"
+            type="button"
+            class="layui-btn layui-btn-danger layui-btn-xs delete"
+          >
+            删除
+          </button>
+        </td>
+      </tr>
+      {{/each}}
+    </script>
+
+  <!-- select的option所有分类模板 -->
+
+  <script type="text/html" id="tpl-cate">
+      <option value="">所有分类</option>
+      {{each data}}
+      <option value="{{$value.Id}}">{{$value.name}}</option>
+      {{/each}}
+    </script>
+  <!-- 加载jquery.js -->
+  <script src="/assets/lib/jquery.js"></script>
+
+  <!-- 加载template-web.js -->
+  <script src="/assets/lib/template-web.js"></script>
+
+  <script src="/assets/lib/moment.js"></script>
+  <!-- 加载自己的js -->
+  <script src="/assets/js/utils.js"></script>
+  <script src="/assets/js/art/art_list.js"></script>
   <!-- 加载layui.all.js -->
-  <script src="../assets/lib/layui/layui.all.js"></script>
-  <script src="../assets/js/utils.js"></script>
-  <script src="../assets/js/art/art_list.js"></script>
+  <script src="/assets/lib/layui/layui.all.js"></script>
 </body>
 
 </html>
+
+<!-- 
+  让formatDate这个方法的处理|前面的pub_date数据，再渲染到视图上
+        <td>{{$value.pub_date | formatDate}}</td>
+
+
+        cate_id	否	string	文章分类的 Id
+        state	否	string	文章的状态，可选值有：已发布、草稿
+
+ -->
