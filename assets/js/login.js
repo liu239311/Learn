@@ -24,7 +24,6 @@ $(function () {
   })
 });
 // 点击去注册
-// console.log($('.register form'));
 $('.register form').submit(function (e) {
   e.preventDefault();
   var data = {

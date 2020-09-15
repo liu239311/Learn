@@ -37,9 +37,6 @@ $(function () {
         // console.log(index,layero);
         localStorage.removeItem('token')
         location.href = '../../login.html'
-      },
-      btn2: function () {
-        layer.close(dialog);
       }
     });
   })
