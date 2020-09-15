@@ -1,7 +1,6 @@
 $(function () {
   // 1.1 获取裁剪区域的 DOM 元素
   var $image = $('#image')
-  console.log($image);
   // 1.2 配置选项
   var options = {
     // 纵横比 16 / 9,  1正方形
