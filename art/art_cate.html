@@ -86,8 +86,8 @@
         </div>
       </form>
     </script>
-    <!-- 定义编辑类别弹层的模板 -->
-    <script type="text/html" id="edit">
+  <!-- 定义编辑类别弹层的模板 -->
+  <script type="text/html" id="edit">
       <form id="editForm" class="layui-form" lay-filter="editForm">
         <input type="hidden" name="Id" />
         <!-- 第一行 分类名称 -->
@@ -96,7 +96,7 @@
           <div class="layui-input-block">
             <input
             type="text"
-            name="name"
+            name="alias"
             required
             lay-verify="required"
             placeholder="请输入分类名称"
@@ -111,7 +111,7 @@
           <div class="layui-input-block">
             <input
             type="text"
-            name="alias"
+            name="name"
             required
             lay-verify="required"
             placeholder="请输入分类别名"
@@ -130,8 +130,8 @@
         </div>
       </form>
     </script>
-    <!-- 定义渲染模板 -->
-    <script type="text/html" id="tmp">
+  <!-- 定义渲染模板 -->
+  <script type="text/html" id="tmp">
       {{ each data }}
       <tr>
         <td>{{$value.alias}}</td>

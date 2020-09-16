@@ -22,21 +22,16 @@ $(function () {
       }
     },
   })
-  $('form').on('submit', function (e) {
+  //表单提交
+  console.log($('button[type=reset]'));
+  $('form').on('submit',function(e){
     e.preventDefault()
-    // 获取表单中的数据，ajax提交
-    $.ajax({
-      type: 'POST',
-      url: '/my/updatepwd',
-      data: $(this).serialize(), // 一定要检查表单各项的name属性；用layui的表单取值也可以
-      success: function (res) {
-        // console.log(res);
-        layer.msg(res.message)
-        if (res.status === 0) {
-          // 重置输入框
-          $('button[type="reset"]').click()
-        }
-      },
+    $.post('/my/updatepwd',$(this).serialize(),function(res){
+      // console.log(res);
+      layer.msg(res.message)
+      if(res.status === 0) {
+        $('button[type=reset]').click()
+      }
     })
   })
 })

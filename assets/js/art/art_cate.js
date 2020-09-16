@@ -1,18 +1,15 @@
 $(function () {
-  initArticleList();
+  //获取文章
+  getCate()
 
-  function initArticleList() {
-    $.get('/my/article/cates', data => {
-      // console.log(data);
-      if (data.status === 0) {
-        var list = template('tmp', data)
-        $('tbody').html(list)
-      } else {}
+  function getCate() {
+    $.get('/my/article/cates', function (res) {
+      var str = template('tmp', res)
+      $('tbody').html(str)
     })
   }
-  //添加
-  $('#addBtn').click(function (e) {
-    e.preventDefault()
+  //添加类别
+  $('#addBtn').on('click', function (e) {
     var strAddHtml = $('#add').html()
     indexAdd = layui.layer.open({
       type: 1,
@@ -21,65 +18,61 @@ $(function () {
       content: strAddHtml,
     })
   })
-  $('body').on('submit', '#addForm', function(e){
+  $('body').on('submit', '#addForm', function (e) {
     e.preventDefault();
-    console.log($(this).serialize());
-    $.post('/my/article/addcates', $(this).serialize(),  res => {
+    // console.log($(this).serialize());
+    $.post('/my/article/addcates', $(this).serialize(), res => {
       if (res.status === 0) {
-        initArticleList()
+        getCate()
         layer.close(indexAdd)
         layer.msg(res.message)
-      } else{}
+      } else {}
     })
   })
-  //编辑
+  //编辑类别
   $('tbody').on('click', '.btn-edit', function (e) {
-    // console.log($(this));
-    e.preventDefault()
-    var strEditHtml = $('#edit').html()
+    var str = $('#edit').html()
     indexEdit = layui.layer.open({
       type: 1,
       area: ['500px', '250px'],
-      title: '修改文章分类',
-      content: strEditHtml,
+      title: '编辑文章分类',
+      content: str,
     })
-    // 获取button的data-Id属性值
     var Id = $(this).attr('data-id')
     $.get(`/my/article/cates/${Id}`, res => {
       if (res.status === 0) {
         layui.form.val('editForm', res.data)
       }
     })
-  })
-  //  通过代理，为表单绑定事件
-  $('body').on('submit', '#editForm', function (e) {
-    e.preventDefault()
-    $.post('/my/article/updatecate', $(this).serialize(), res => {
-      // console.log(res)
-      if (res.status === 0) {
-        initArticleList()
-        layer.close(indexEdit)
-      }
-    })
-  })
-
-  //删除
-  $('tbody').on('click', '.btn-delete', function (e) {
-    // console.log($(this));
-    e.preventDefault()
-    var Id = $(this).attr('data-id')
-    layer.confirm('确定删除?', {
-      icon: 3,
-      title: '提示'
-    }, function () {
-      $.get(`/my/article/deletecate/${Id}`, res => {
-        if(res.status === 0) {
+    $('body').on('submit', '#editForm', function (e) {
+      e.preventDefault()
+      $.post(`/my/article/updatecate`, $(this).serialize(), res => {
+        // console.log(res);
+        if (res.status === 0) {
+          getCate()
+          layer.close(indexEdit)
           layer.msg(res.message)
-          initArticleList();
-        } else {
-          layer.msg('删除文章分类失败!')
         }
       })
     })
+  })
+  // 删除
+  $('tbody').on('click', '.btn-delete', function (e) {
+    var Id = $(this).attr('data-id');
+    var indexDelete = layer.confirm('确定删除?', {
+        icon: 3,
+        btn: ['确定','取消'] //可以无限个按钮
+      },
+      function () {
+        //按钮【按钮一】的回调
+        $.get(`/my/article/deletecate/${Id}`, res => {
+          // console.log(res);
+          if (res.status === 0) {
+            getCate()
+            layer.msg(res.message)
+            layer.close(indexDelete)
+          }
+        })
+      })
   })
 })

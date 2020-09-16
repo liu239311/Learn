@@ -15,7 +15,7 @@ function initEditor() {
       'advlist autolink link image lists charmap preview hr anchor pagebreak spellchecker',
       'searchreplace wordcount visualblocks visualchars code insertdatetime nonbreaking',
       'save table contextmenu directionality template paste textcolor',
-      'codesample imageupload',
+      'codesample imageupload'
     ],
     //工具栏的补丁按钮
     toolbar:
@@ -32,7 +32,7 @@ function initEditor() {
     //字体大小
     fontsize_formats: '10pt 12pt 14pt 18pt 24pt 36pt',
     //按tab不换行
-    nonbreaking_force_tab: true,
+    nonbreaking_force_tab: true
     //   imageupload_url: '/user/submit-image'
   })
 }
